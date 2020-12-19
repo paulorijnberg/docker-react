@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    build:                        # This is because we have a Dockerfile.dev instead of the usually used Dockerfile
+      context: .                  # Where we want to folders to extract of
+      dockerfile: Dockerfile.dev  # Look for this document to build the container
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules   # Don't map this folder with something outside of the container
+      - .:/app              # Map current folder to folder inside container folder /app
+  test:
+    build: 
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: ["npm", "run", "test"] # This will overwrite the CMD code. This will be ran when something changed inside our volumes.
