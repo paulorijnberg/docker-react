@@ -1,0 +1,12 @@
+language: generic
+sudo: required  # Tells Travis we need sudo permission.
+services:       # Tells Travis we need a copy of docker
+  - docker
+
+# Before we run our tests, we need to a few steps like e.g. build the docker image.
+before_install:
+  - docker build -t paulorijnberg/docker-react -f Dockerfile.dev .
+
+# All commands to run the test
+script:
+  - docker run -e CI=true paulorijnberg/docker-react npm run test
